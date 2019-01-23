@@ -212,7 +212,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.41738254, g: 0.5849056, b: 0.32831967, a: 0}
+  m_BackGroundColor: {r: 0.5089109, g: 0.7169812, b: 0.4024564, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -256,6 +256,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &906017391
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -16.058737
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 7.6524177
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.144064
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474421567692642, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &969933651
 GameObject:
   m_ObjectHideFlags: 0
