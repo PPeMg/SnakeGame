@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Snake : MonoBehaviour
 {
     public GameObject block;
-    public GameObject item;
+    public GameObject itemPrefab;
     public GameObject scenary;
     public int width, height;
 
@@ -15,13 +14,14 @@ public class Snake : MonoBehaviour
 
     private bool gameRunning = true;
 
+    private GameObject item;
     private GameObject head;
     private Queue<GameObject> body = new Queue<GameObject>();
     private Vector3 direction = Vector3.right;
 
     private enum SquareState
     {
-        FREE, BLOCKED
+        FREE, BLOCKED, ITEM
     }
 
 
@@ -32,7 +32,51 @@ public class Snake : MonoBehaviour
         BuildScenary();
         head = NewBlock(width/2f, height/2f);
 
+        GenerateRandomItem();
         StartCoroutine(Movement());
+    }
+
+    private void GenerateRandomItem()
+    {
+        Vector3 position = GetFreeSquare();
+        if(item != null)
+        {
+            item.transform.position = GetFreeSquare();
+            SetSquareState(item.transform.position, SquareState.ITEM);
+        } else
+        {
+            item = NewItem(position.x, position.y);
+        }
+    }
+
+    private Vector3 GetFreeSquare()
+    {
+        List<Vector3> freeSquares = new List<Vector3>();
+
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                Vector3 position = new Vector3(Mathf.RoundToInt(x), Mathf.RoundToInt(y));
+
+                if(GetSquareState(position) == SquareState.FREE)
+                {
+                    freeSquares.Add(position);
+                }
+            }
+        }
+
+        return freeSquares[Random.Range(0, freeSquares.Count - 1)];
+    }
+
+    private GameObject NewItem(float x, float y)
+    {
+        Vector3 position = new Vector3(Mathf.RoundToInt(x), Mathf.RoundToInt(y));
+        GameObject instance = Instantiate(itemPrefab, position, Quaternion.identity, scenary.transform);
+        
+        SetSquareState(position, SquareState.ITEM);
+
+        return instance;
     }
 
     private GameObject NewBlock(float x, float y)
@@ -62,13 +106,24 @@ public class Snake : MonoBehaviour
 
             } else
             {
-                GameObject tail = body.Dequeue();
-                SetSquareState(tail.transform.position, SquareState.FREE);
-                tail.transform.position = nextPosition;
-                SetSquareState(tail.transform.position, SquareState.BLOCKED);
-                body.Enqueue(tail);
+                if (GetSquareState(nextPosition) == SquareState.ITEM)
+                {
+                    GameObject newHead = NewBlock(Mathf.RoundToInt(nextPosition.x), Mathf.RoundToInt(nextPosition.y));
+                    //SetSquareState(newHead.transform.position, SquareState.BLOCKED);
+                    //body.Enqueue(newHead);
 
-                head = tail;
+                    GenerateRandomItem();
+                    head = newHead;
+                } else
+                {
+                    GameObject tail = body.Dequeue();
+                    SetSquareState(tail.transform.position, SquareState.FREE);
+                    tail.transform.position = nextPosition;
+                    SetSquareState(tail.transform.position, SquareState.BLOCKED);
+                    body.Enqueue(tail);
+
+                    head = tail;
+                }
 
                 yield return wait;
             }

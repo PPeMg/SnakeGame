@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   block: {fileID: 1237007510636536, guid: 720f61186dbc0ce45adca91d8117e8d2, type: 3}
-  item: {fileID: 1237007510636536, guid: 0edea4745a780a9478698617749d1adb, type: 3}
+  itemPrefab: {fileID: 1237007510636536, guid: 0edea4745a780a9478698617749d1adb, type: 3}
   scenary: {fileID: 1574371430}
   width: 37
   height: 21
