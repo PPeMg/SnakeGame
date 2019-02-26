@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Snake : MonoBehaviour
 {
     public GameObject block;
     public GameObject itemPrefab;
     public GameObject scenary;
+    public Text pointsText;
     public int width, height;
 
     public float movementInterval;
+    public float explosionForce;
 
     private bool gameRunning = true;
 
+    private int points;
     private GameObject item;
     private GameObject head;
     private Queue<GameObject> body = new Queue<GameObject>();
@@ -29,6 +33,7 @@ public class Snake : MonoBehaviour
 
     private void Awake()
     {
+        points = 0;
         BuildScenary();
         head = NewBlock(width/2f, height/2f);
 
@@ -100,18 +105,15 @@ public class Snake : MonoBehaviour
 
             if(GetSquareState(nextPosition) == SquareState.BLOCKED)
             {
-                Debug.Log("DEAD");
+                GameOver();
                 yield return new WaitForSeconds(5f);
-                gameRunning = false;
 
             } else
             {
                 if (GetSquareState(nextPosition) == SquareState.ITEM)
                 {
                     GameObject newHead = NewBlock(Mathf.RoundToInt(nextPosition.x), Mathf.RoundToInt(nextPosition.y));
-                    //SetSquareState(newHead.transform.position, SquareState.BLOCKED);
-                    //body.Enqueue(newHead);
-
+                    AddPoint();
                     GenerateRandomItem();
                     head = newHead;
                 } else
@@ -130,6 +132,30 @@ public class Snake : MonoBehaviour
         }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void GameOver()
+    {
+        gameRunning = false;
+
+        Explode(scenary.GetComponentsInChildren<Rigidbody>());
+        Explode(this.GetComponentsInChildren<Rigidbody>());
+    }
+
+    private void Explode(Rigidbody[] rbs_blocks)
+    {
+        foreach(Rigidbody rb in rbs_blocks)
+        {
+            rb.useGravity = true;
+            rb.AddForce(Random.insideUnitCircle.normalized * explosionForce);
+            rb.AddTorque(0, 0, Random.Range(-explosionForce, explosionForce));
+        }
+    }
+
+    private void AddPoint()
+    {
+        points++;
+        pointsText.text = points.ToString();
     }
 
     private void BuildScenary()
